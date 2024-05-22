@@ -86,14 +86,10 @@ retry_rand:
 		printf("ROTATIONS: %d\n", cycle_cnt);
 		for (i = 0; i < member_cnt; i++)
 		{
-			printf("\t%d. %s%s (%d)\n", i + 1,
+			printf("\t%d. %s%s\n", i + 1,
 			       argv[member_indis[i] + 1 + is_randomized],
-			       (i == member_cur) ? " <<" : "", member_indis[i] + 1 + is_randomized);
+			       (i == member_cur) ? " <<" : "");
 		}
-
-		for (i = 0; i < argc; i++)
-			printf("%s ", argv[i]);
-		printf("\n (%d)", member_cnt);
 	} while (getchar() != 'e');
 
 	total_hits = member_cnt * cycle_cnt * member_cur;
