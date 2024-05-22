@@ -2,12 +2,12 @@ APP := weedtracker
 SRC := main.c
 OBJ := $(patsubst %.c,%.o,$(SRC))
 
-CFLAGS := -Wall -Wextra -Werror -ansi -pedantic -ggdb3 -O0 -s
+CFLAGS := -Wall -Wextra -Werror -ansi -pedantic -ggdb3 -O0
 
 default: $(APP)
 
 $(APP): $(OBJ)
-	$(CC) $(CFLAGS) -s $^ -o $@
+	$(CC) $(CFLAGS) $^ -o $@
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
