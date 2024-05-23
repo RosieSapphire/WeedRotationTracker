@@ -141,7 +141,7 @@ retry_rand:
 	sprintf(fullbuf, "%s %s took %d bong rips, "
 		"with %s hitting last.\n",
 		timebuf, namebuf, total_hits, last_hitter);
-	fwrite(fullbuf, 1, 1024, logfile);
+	fwrite(fullbuf, 1, strlen(fullbuf), logfile);
 	fclose(logfile);
 	exit(EXIT_SUCCESS);
 }
