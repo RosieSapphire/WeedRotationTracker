@@ -2,7 +2,7 @@ APP := weedtracker
 SRC := main.c
 OBJ := $(patsubst %.c,%.o,$(SRC))
 
-CFLAGS := -Wall -Wextra -Werror -ansi -pedantic -ggdb3 -O0
+CFLAGS := -std=c2x -Wall -Wextra -Werror -ggdb3 -O0
 
 default: $(APP)
 

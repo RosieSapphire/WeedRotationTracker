@@ -94,14 +94,54 @@ retry_rand:
 
 	total_hits = member_cnt * cycle_cnt + member_cur;
 	if (member_cur)
+	{
 		last_hitter =
 			argv[member_indis[member_cur - 1] + 1 + is_randomized];
+	}
 	else
-		last_hitter = cycle_cnt ? argv[argc - 1] :
-			"FUCKING NOBODY! GOD, YOU GUYS ARE LAME!";
+	{
+		if (!cycle_cnt)
+		{
+			/* don't log anything if there wasn't anything smoked */
+			last_hitter = "FUCKING NOBODY! GOD, YOU GUYS ARE LAME!";
+			exit(EXIT_SUCCESS);
+		}
+
+		last_hitter = argv[argc - 1];
+	}
 
 	printf("\x1b[2J\x1b[1;1HYou all have smoked %d bowls\n", total_hits);
 	printf("The last person to hit was %s\n", last_hitter);
 
+	/* logging */
+	time_t t = time(NULL);
+	struct tm lt;
+	FILE *logfile;
+	char timebuf[64] = {0};
+	char namebuf[1024] = {0};
+	char fullbuf[2048] = {0};
+
+	logfile = fopen("log", "a");
+	localtime_r(&t, &lt);
+	strftime(timebuf, 1024, "On %A, %B %d, %Y @ %r,", &lt);
+	for (int i = 0; i < member_cnt; i++)
+	{
+		if (i > (member_cnt - 3))
+		{
+			sprintf(namebuf + strlen(namebuf),
+				(i == member_cnt - 2) ? "%s and " : "%s",
+				argv[member_indis[i] + 1 + is_randomized]);
+			continue;
+		}
+
+		sprintf(namebuf + strlen(namebuf), "%s, ",
+			argv[member_indis[i] + 1 + is_randomized]);
+	}
+
+	sprintf(fullbuf, "%s %s took %d bong rips, "
+		"with %s hitting last.\n",
+		timebuf, namebuf, total_hits, last_hitter);
+	fwrite(fullbuf, 1, 1024, logfile);
+	fclose(logfile);
 	exit(EXIT_SUCCESS);
 }
