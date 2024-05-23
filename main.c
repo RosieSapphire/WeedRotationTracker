@@ -92,7 +92,7 @@ retry_rand:
 		}
 	} while (getchar() != 'e');
 
-	total_hits = member_cnt * cycle_cnt * member_cur;
+	total_hits = member_cnt * cycle_cnt + member_cur;
 	if (member_cur)
 		last_hitter =
 			argv[member_indis[member_cur - 1] + 1 + is_randomized];
