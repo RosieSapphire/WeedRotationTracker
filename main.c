@@ -96,18 +96,19 @@ retry_rand:
 	if (member_cur)
 	{
 		last_hitter =
-			argv[member_indis[member_cur - 1] + 1 + is_randomized];
+			argv[1 + member_indis[member_cur - 1] + is_randomized];
 	}
 	else
 	{
 		if (!cycle_cnt)
 		{
-			/* don't log anything if there wasn't anything smoked */
 			last_hitter = "FUCKING NOBODY! GOD, YOU GUYS ARE LAME!";
 			exit(EXIT_SUCCESS);
 		}
 
-		last_hitter = argv[argc - 1];
+		last_hitter =
+			argv[1 + member_indis[(member_cur - 1 < 0) ?
+			     member_cnt - 1 : member_cur - 1] + is_randomized];
 	}
 
 	printf("\x1b[2J\x1b[1;1HYou all have smoked %d bowls\n", total_hits);
