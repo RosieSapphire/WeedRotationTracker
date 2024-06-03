@@ -5,6 +5,8 @@
 #include <getopt.h>
 #include <time.h>
 
+#define LOGGING_ENABLED 0
+
 static int is_randomized;
 static int member_cnt;
 static int member_cur;
@@ -76,6 +78,9 @@ retry_rand:
 	}
 
 	member_cur = -1;
+
+	char input;
+
 	do {
 		if (++member_cur >= member_cnt)
 		{
@@ -90,7 +95,8 @@ retry_rand:
 			       argv[member_indis[i] + 1 + is_randomized],
 			       (i == member_cur) ? " <<" : "");
 		}
-	} while (getchar() != 'e');
+		input = getchar();
+	} while (input != 'e');
 
 	total_hits = member_cnt * cycle_cnt + member_cur;
 	if (member_cur)
@@ -107,14 +113,15 @@ retry_rand:
 		}
 
 		last_hitter =
-			argv[1 + member_indis[(member_cur - 1 < 0) ?
-			     member_cnt - 1 : member_cur - 1] + is_randomized];
+			argv[1 + member_indis[((member_cur - 1 < 0) ?
+			     member_cnt : member_cur) - 1] + is_randomized];
 	}
 
 	printf("\x1b[2J\x1b[1;1HYou all have smoked %d bowls\n", total_hits);
 	printf("The last person to hit was %s\n", last_hitter);
 
 	/* logging */
+#if LOGGING_ENABLED 
 	time_t t = time(NULL);
 	struct tm lt;
 	FILE *logfile;
@@ -144,5 +151,6 @@ retry_rand:
 		timebuf, namebuf, total_hits, last_hitter);
 	fwrite(fullbuf, 1, strlen(fullbuf), logfile);
 	fclose(logfile);
+#endif
 	exit(EXIT_SUCCESS);
 }
