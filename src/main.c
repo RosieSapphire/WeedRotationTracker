@@ -5,8 +5,6 @@
 #include "prog.h"
 #include "log.h"
 
-#define LOGGING_ENABLED 0
-
 static void main_loop(char **argv)
 {
 	char input;

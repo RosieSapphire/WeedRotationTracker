@@ -1,3 +1,5 @@
+LOGGING_ENABLED := 1
+
 BUILD_DIR := build
 TARGET := weedtracker
 INC_DIRS := include
@@ -8,6 +10,9 @@ O_FILES := $(C_FILES:%.c=$(BUILD_DIR)/%.o)
 
 OPT := -O3
 CFLAGS := $(OPT) $(INC_DIRS:%=-I%) -Wall -Wextra -Werror -std=c89 -pedantic
+ifeq ($(LOGGING_ENABLED), 1)
+	CFLAGS += -DLOGGING_ENABLED
+endif
 
 default: $(TARGET)
 
@@ -21,7 +26,8 @@ $(BUILD_DIR)/%.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(TARGET) $(BUILD_DIR)
+	@echo Cleaning Previous Build...
+	@rm -rf $(TARGET) $(BUILD_DIR)
 
 BETTY_IGNORE :=
 BETTY_FLAGS := -strict -subjective --show-types \
