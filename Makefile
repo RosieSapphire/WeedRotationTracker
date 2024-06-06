@@ -1,16 +1,31 @@
-APP := weedtracker
-SRC := main.c
-OBJ := $(patsubst %.c,%.o,$(SRC))
+BUILD_DIR := build
+TARGET := weedtracker
+INC_DIRS := include
+SRC_DIRS := src
+H_FILES := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.h))
+C_FILES := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
+O_FILES := $(C_FILES:%.c=$(BUILD_DIR)/%.o)
 
-CFLAGS := -std=c2x -Wall -Wextra -Werror -ggdb3 -O0
+OPT := -O3
+CFLAGS := $(OPT) $(INC_DIRS:%=-I%) -Wall -Wextra -Werror -std=c89 -pedantic
 
-default: $(APP)
+default: $(TARGET)
 
-$(APP): $(OBJ)
+$(TARGET): $(O_FILES)
 	$(CC) $(CFLAGS) $^ -o $@
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+$(BUILD_DIR)/%.o: %.c
+	@mkdir -p $(dir $@)
+	@echo "    [CC] $@"
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(APP) $(OBJ)
+	rm -f $(TARGET) $(OBJ)
+
+BETTY_IGNORE :=
+BETTY_FLAGS := -strict -subjective --show-types \
+	       --allow-global-variables $(BETTY_IGNORE)
+BETTY_SCAN := $(H_FILES) $(C_FILES)
+
+betty:
+	betty-style $(BETTY_FLAGS) $(BETTY_SCAN)
