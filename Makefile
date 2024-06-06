@@ -12,7 +12,8 @@ CFLAGS := $(OPT) $(INC_DIRS:%=-I%) -Wall -Wextra -Werror -std=c89 -pedantic
 default: $(TARGET)
 
 $(TARGET): $(O_FILES)
-	$(CC) $(CFLAGS) $^ -o $@
+	@echo "    [LD] $@"
+	@$(CC) $(CFLAGS) $^ -o $@
 
 $(BUILD_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
@@ -20,7 +21,7 @@ $(BUILD_DIR)/%.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(TARGET) $(OBJ)
+	rm -rf $(TARGET) $(BUILD_DIR)
 
 BETTY_IGNORE :=
 BETTY_FLAGS := -strict -subjective --show-types \
