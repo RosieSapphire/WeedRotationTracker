@@ -5,7 +5,7 @@
 #include "prog.h"
 #include "log.h"
 
-static void main_loop(char **argv)
+static void loop(char **argv)
 {
 	char input;
 
@@ -50,14 +50,12 @@ int main(int argc, char **argv)
 	}
 
 	member_cur = -1;
-	main_loop(argv);
+	loop(argv);
 	total_hits = member_cnt * cycle_cnt + member_cur;
 	last_hitter = last_hitter_determine(argv);
 
 	printf("\x1b[2J\x1b[1;1HYou all have smoked %d bowls\n", total_hits);
 	printf("The last person to hit was %s\n", last_hitter);
-
-	/* logging */
-	log_write();
+	log_write(argv, total_hits, last_hitter);
 	exit(EXIT_SUCCESS);
 }

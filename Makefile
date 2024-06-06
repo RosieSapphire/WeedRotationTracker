@@ -9,7 +9,7 @@ C_FILES := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
 O_FILES := $(C_FILES:%.c=$(BUILD_DIR)/%.o)
 
 OPT := -O3
-CFLAGS := $(OPT) $(INC_DIRS:%=-I%) -Wall -Wextra -Werror -std=c89 -pedantic
+CFLAGS := $(OPT) $(INC_DIRS:%=-I%) -Wall -Wextra -Werror -std=c2x -pedantic
 ifeq ($(LOGGING_ENABLED), 1)
 	CFLAGS += -DLOGGING_ENABLED
 endif

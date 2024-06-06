@@ -1,7 +1,15 @@
+#include <stdio.h>
+#include <unistd.h>
+#include <time.h>
+#include <string.h>
+
+#define UNUSED __attribute__((unused))
+
+#include "prog.h"
 #include "log.h"
 
-void log_write(void)
 #if LOGGING_ENABLED
+void log_write(char **argv, int total_hits, const char *last_hitter)
 {
 	time_t t = time(NULL);
 	struct tm lt;
@@ -33,5 +41,7 @@ void log_write(void)
 	fclose(logfile);
 }
 #else
+void log_write(UNUSED char **argv, UNUSED int total_hits,
+	       UNUSED const char *last_hitter)
 {}
 #endif
