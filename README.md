@@ -10,8 +10,9 @@ called `weedtracker`.
 
 Once it's compiled, you can run the application with `./weedtracker`, followed
 by the names of every person you want to be in the rotation. Additionally, you
-can add the `-r` flag anywhere, and it'll randomize who takes their hit when.
-Otherwise, it'll just have them in the order in which they were inputted.
+can add the `-r` as the FIRST parameter, and it'll randomize who takes their
+hit when. Otherwise, it'll just have them in the order in which they were
+inputted.
 
 ## Disclaimer
 I am not responsible for any green-outs that may occur from the usage of herbal
